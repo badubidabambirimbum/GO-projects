@@ -52,6 +52,24 @@ func (m *MatrixFloat) Create() {
 	}
 }
 
+// Создание матрицы из нулей
+func (m *MatrixFloat) CreateEmptyMatrix(row, col int) {
+	if len(m.matrix) != 0 {
+		log.Fatal("Матрица уже создана!")
+	}
+	for i := 0; i < row; i++ {
+		m.matrix = append(m.matrix, []float64{})
+		for j := 0; j < col; j++ {
+			m.matrix[i] = append(m.matrix[i], 0)
+		}
+	}
+}
+
+// Длина матрицы (row * col)
+func (m *MatrixFloat) Len() int {
+	return m.row * m.column
+}
+
 func (m *MatrixFloat) SetMatrix(i, j int, val any) {
 	if i < 0 || i >= m.row || j < 0 || j >= m.column {
 		log.Fatalf("Размер матрицы %d x %d, а вы хотите изменить значение [%d,%d]", m.row, m.column, i, j)
@@ -75,8 +93,16 @@ func (m *MatrixFloat) Determinant() any {
 	return (*m).determinant
 }
 
+func (m *MatrixFloat) SetRow(x int) {
+	m.row = x
+}
+
 func (m *MatrixFloat) Row() int {
 	return (*m).row
+}
+
+func (m *MatrixFloat) SetColumn(x int) {
+	m.column = x
 }
 
 func (m *MatrixFloat) Column() int {

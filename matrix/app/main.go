@@ -8,8 +8,8 @@ import (
 func main() {
 	m := matrixInt.MatrixInt{}
 	m.Create()
-
-	m.SetMatrix(5, 5, 5)
-	matrixInterface.MultiplicationByNumber(&m, "5")
+	m2 := matrixInt.MatrixInt{}
+	matrixInterface.MultiplicationByNumber(&m, 5, &m)
+	matrixInterface.PrintMatrix(&m2)
 	matrixInterface.PrintMatrix(&m)
 }
