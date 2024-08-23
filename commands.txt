@@ -1,0 +1,10 @@
+go run program.go // запуск программы
+go doc fmt Println // документация 
+
+.\file.exe // запустить exe файл
+
+go build -o file.exe // Создать exe файл из go
+go test module/prose -v -run Join (-v отвечает за подробный вывод, -run Join выводит тест только тех функций, в названии которых есть Join)
+go mod init module // создание go.mod
+
+git checkout papka // откатывает в директории, в которой щас находишься, изменения выбранной папки или файла до версии, которая находится на гитхабе
