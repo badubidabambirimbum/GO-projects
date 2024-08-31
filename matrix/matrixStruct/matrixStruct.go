@@ -47,14 +47,14 @@ func (m *Matrix[T]) Create() {
 			for j := 0; j < m.column; j++ {
 				switch any(m.determinant).(type) {
 				case int:
-					num, err := strconv.Atoi(parts[i*m.row+j])
+					num, err := strconv.Atoi(parts[i*m.column+j])
 					if err != nil {
 						fmt.Println("Ошибка преобразования:", err)
 						return
 					}
 					m.matrix[i] = append(m.matrix[i], T(num))
 				case float64:
-					num, err := strconv.ParseFloat(parts[i*m.row+j], 64)
+					num, err := strconv.ParseFloat(parts[i*m.column+j], 64)
 					if err != nil {
 						fmt.Println("Ошибка преобразования:", err)
 						return
@@ -87,27 +87,24 @@ func (m *Matrix[T]) Len() int {
 	return m.row * m.column
 }
 
-func (m *Matrix[T]) SetMatrix(i, j int, val T) {
-	if i < 0 || i >= m.row || j < 0 || j >= m.column {
-		log.Fatalf("Размер матрицы %d x %d, а вы хотите изменить значение [%d,%d]", m.row, m.column, i, j)
-	}
-	valT, ok := any(val).(T)
-	if !ok {
-		log.Fatalf("Значение типа %T не подходит!", val)
-	}
-	m.matrix[i][j] = valT
+//  Изменение значения матрицы
+func (m *Matrix[T]) SetMatrix(values [][]T) {
+	m.matrix = values
 }
 
+// Возвращение матрицы
 func (m *Matrix[T]) Matrix() [][]T {
-	return (*m).matrix
+	return m.matrix
 }
 
+// Определение детерминанта
 func (m *Matrix[T]) SetDeterminant() {
 
 }
 
+// Вовращение детерминанта
 func (m *Matrix[T]) Determinant() T {
-	return (*m).determinant
+	return m.determinant
 }
 
 func (m *Matrix[T]) SetRow(x int) {
@@ -115,7 +112,7 @@ func (m *Matrix[T]) SetRow(x int) {
 }
 
 func (m *Matrix[T]) Row() int {
-	return (*m).row
+	return m.row
 }
 
 func (m *Matrix[T]) SetColumn(x int) {
@@ -123,5 +120,14 @@ func (m *Matrix[T]) SetColumn(x int) {
 }
 
 func (m *Matrix[T]) Column() int {
-	return (*m).column
+	return m.column
+}
+
+func (m *Matrix[T]) String() string {
+	var s string = fmt.Sprintf("Матрица %dx%d", m.row, m.column)
+	for i := 0; i < m.Row(); i++ {
+		s += fmt.Sprint("\n", m.Matrix()[i])
+	}
+	s += fmt.Sprint("\nОпределитель: ", m.determinant, "\n")
+	return s
 }
