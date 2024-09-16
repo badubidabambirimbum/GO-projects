@@ -1,7 +1,7 @@
+// Функции, применимые к типу Matrix
 package matrix
 
 import (
-	"fmt"
 	"log"
 	matrix "matrix/matrixStruct"
 )
@@ -20,6 +20,9 @@ func Sum[T matrix.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matri
 			result.Matrix()[i][j] = m1.Matrix()[i][j] + m2.Matrix()[i][j]
 		}
 	}
+	if m1.Row() == m1.Column() {
+		result.SetDeterminant()
+	}
 	return result
 }
 
@@ -37,11 +40,14 @@ func Difference[T matrix.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matri
 			result.Matrix()[i][j] = m1.Matrix()[i][j] - m2.Matrix()[i][j]
 		}
 	}
+	if m1.Row() == m1.Column() {
+		result.SetDeterminant()
+	}
 	return result
 }
 
 // Произведение матриц
-func ProductMatrix[T matrix.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix[T] {
+func Product[T matrix.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix[T] {
 	if m1.Column() != m2.Row() {
 		log.Fatal("Кол-во столбцов первой матрицы не равно кол-ву строк второй")
 	}
@@ -58,6 +64,9 @@ func ProductMatrix[T matrix.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) ma
 			result.Matrix()[i][j] = val
 		}
 	}
+	if result.Row() == result.Column() {
+		result.SetDeterminant()
+	}
 	return result
 }
 
@@ -72,6 +81,9 @@ func MultiplicationByNumber[T matrix.Number](m matrix.Matrix[T], val T) matrix.M
 			result.Matrix()[i][j] = m.Matrix()[i][j] * val
 		}
 	}
+	if result.Row() == result.Column() {
+		result.SetDeterminant()
+	}
 	return result
 }
 
@@ -80,29 +92,26 @@ func Transposition[T matrix.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
 	if m.Column() != m.Row() {
 		log.Fatal("Матрица должна быть квадратной!")
 	}
-	var result matrix.Matrix[T]
 	for i := 0; i < m.Row(); i++ {
 		for j := i + 1; j < m.Column(); j++ {
 			m.Matrix()[i][j], m.Matrix()[j][i] = m.Matrix()[j][i], m.Matrix()[i][j]
 		}
 	}
-	return result
+	return m
 }
 
-// Обратная матрица
+// Обратная матрица ??
 func Inverse[T matrix.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
-	var m3 matrix.Matrix[T]
-
-	return m3
-}
-
-// Печать матрицы
-func PrintMatrix[T matrix.Number](m matrix.Matrix[T]) {
-	for i := 0; i < m.Row(); i++ {
-		fmt.Println(m.Matrix()[i])
+	if m.Column() != m.Row() {
+		log.Fatal("Обратную матрицу можно найти только для квадрдатной матрицы")
 	}
+	if m.Determinant() == 0 {
+		log.Fatal("Определитель равен нулю")
+	}
+	return MultiplicationByNumber(Transposition(m), 1/m.Determinant()) // Неправильно
 }
 
+// Создание матрицы
 func CreateMatrix[T matrix.Number](values [][]T) matrix.Matrix[T] {
 	result := matrix.Matrix[T]{}
 	result.SetMatrix(values)

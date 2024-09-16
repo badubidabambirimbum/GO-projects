@@ -1,9 +1,11 @@
+// Тип Matrix и его методы
 package matrix
 
 import (
 	"bufio"
 	"fmt"
 	"log"
+	"math"
 	"os"
 	"strconv"
 	"strings"
@@ -67,6 +69,7 @@ func (m *Matrix[T]) Create() {
 			}
 		}
 	}
+	m.SetDeterminant()
 }
 
 // Создание матрицы из нулей
@@ -87,7 +90,7 @@ func (m *Matrix[T]) Len() int {
 	return m.row * m.column
 }
 
-//  Изменение значения матрицы
+//  Изменение значения матрицы ?
 func (m *Matrix[T]) SetMatrix(values [][]T) {
 	m.matrix = values
 }
@@ -99,12 +102,33 @@ func (m *Matrix[T]) Matrix() [][]T {
 
 // Определение детерминанта
 func (m *Matrix[T]) SetDeterminant() {
-
+	m.determinant = recursSearchDet(m.matrix)
 }
 
 // Вовращение детерминанта
 func (m *Matrix[T]) Determinant() T {
 	return m.determinant
+}
+
+// Вспомогательная функция для поиска определителя
+func recursSearchDet[T Number](m [][]T) T {
+	var det T
+	det = 0
+
+	if len(m) == 2 {
+		det = m[0][0]*m[1][1] - m[0][1]*m[1][0]
+	} else {
+		for i := 0; i < len(m); i++ {
+			mRec := [][]T{}
+			for j := 0; j < len(m); j++ {
+				if i != j {
+					mRec = append(mRec, m[j][1:])
+				}
+			}
+			det += T(math.Pow(-1, float64(i))) * m[i][0] * recursSearchDet(mRec)
+		}
+	}
+	return det
 }
 
 func (m *Matrix[T]) SetRow(x int) {
