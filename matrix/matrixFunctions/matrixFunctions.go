@@ -18,9 +18,17 @@ func Sum[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m1.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m1.Column())
+	result.SetMax(T(math.Inf(-1)))
+	result.SetMin(T(math.Inf(1)))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m1.Column(); j++ {
 			result.Matrix()[i][j] = m1.Matrix()[i][j] + m2.Matrix()[i][j]
+			if result.Matrix()[i][j] > result.Max() {
+				result.SetMax(result.Matrix()[i][j])
+			}
+			if result.Matrix()[i][j] < result.Min() {
+				result.SetMin(result.Matrix()[i][j])
+			}
 		}
 	}
 	if m1.Row() == m1.Column() {
@@ -38,9 +46,17 @@ func Difference[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m1.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m1.Column())
+	result.SetMax(T(math.Inf(-1)))
+	result.SetMin(T(math.Inf(1)))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m1.Column(); j++ {
 			result.Matrix()[i][j] = m1.Matrix()[i][j] - m2.Matrix()[i][j]
+			if result.Matrix()[i][j] > result.Max() {
+				result.SetMax(result.Matrix()[i][j])
+			}
+			if result.Matrix()[i][j] < result.Min() {
+				result.SetMin(result.Matrix()[i][j])
+			}
 		}
 	}
 	if m1.Row() == m1.Column() {
@@ -58,6 +74,8 @@ func Product[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Ma
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m2.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m2.Column())
+	result.SetMax(T(math.Inf(-1)))
+	result.SetMin(T(math.Inf(1)))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m2.Column(); j++ {
 			var val T
@@ -65,6 +83,12 @@ func Product[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Ma
 				val += m1.Matrix()[i][k] * m2.Matrix()[k][j]
 			}
 			result.Matrix()[i][j] = val
+			if result.Matrix()[i][j] > result.Max() {
+				result.SetMax(result.Matrix()[i][j])
+			}
+			if result.Matrix()[i][j] < result.Min() {
+				result.SetMin(result.Matrix()[i][j])
+			}
 		}
 	}
 	if result.Row() == result.Column() {
@@ -79,9 +103,17 @@ func MultiplicationByNumber[T inter.Number](m matrix.Matrix[T], val T) matrix.Ma
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m.Row(), m.Column()))
 	result.SetRow(m.Row())
 	result.SetColumn(m.Column())
+	result.SetMax(T(math.Inf(-1)))
+	result.SetMin(T(math.Inf(1)))
 	for i := 0; i < m.Row(); i++ {
 		for j := 0; j < m.Column(); j++ {
-			result.Matrix()[i][j] = dopf.RoundToDecimal(m.Matrix()[i][j]*val, 2)
+			result.Matrix()[i][j] = m.Matrix()[i][j] * val
+			if result.Matrix()[i][j] > result.Max() {
+				result.SetMax(result.Matrix()[i][j])
+			}
+			if result.Matrix()[i][j] < result.Min() {
+				result.SetMin(result.Matrix()[i][j])
+			}
 		}
 	}
 	if result.Row() == result.Column() {
@@ -122,6 +154,8 @@ func CreateMatrix[T inter.Number](values [][]T) matrix.Matrix[T] {
 	result.SetRow(len(values))
 	result.SetColumn(len(values[0]))
 	result.SetDeterminant()
+	result.SetMax()
+	result.SetMin()
 
 	return result
 }

@@ -28,12 +28,6 @@ func RecursSearchDet[T inter.Number](m [][]T) T {
 	return det
 }
 
-// Округление значения
-func RoundToDecimal[T inter.Number](num T, precision int) T {
-	factor := math.Pow(10, float64(precision))
-	return T(math.Round(float64(num)*factor) / factor)
-}
-
 // Составление матрицы алгебраических дополнений
 func SearchMatrixAlgAdditions[T inter.Number](m [][]T) [][]T {
 	resMatrix := CreateEmptyMatrix[T](len(m), len(m[0]))

@@ -12,9 +12,10 @@ import (
 
 // Печать матриц
 func PrintMatrix[T inter.Number](matrixList map[int]matrix.Matrix[T]) {
-	for key, value := range matrixList {
+	for key := 1; key <= len(matrixList); key++ {
 		fmt.Println(key)
-		fmt.Println(&value)
+		m := matrixList[key]
+		fmt.Println(&m)
 	}
 }
 
