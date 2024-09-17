@@ -5,19 +5,15 @@ import (
 	"bufio"
 	"fmt"
 	"log"
-	"math"
+	dopf "matrix/dopFunctions"
+	inter "matrix/numInterface"
 	"os"
 	"strconv"
 	"strings"
 )
 
-// Ограничения на тип
-type Number interface {
-	int | float64
-}
-
 // Структура Matrix, которая работает с типами из интерфейса Number
-type Matrix[T Number] struct {
+type Matrix[T inter.Number] struct {
 	matrix      [][]T // матрица
 	determinant T     // определитель
 	row         int   // ряд
@@ -27,7 +23,7 @@ type Matrix[T Number] struct {
 // Создание матрицы
 func (m *Matrix[T]) Create() {
 	fmt.Print("Введите количество строк и столбцов: ")
-	fmt.Scan(&(m.row), &(m.column))
+	fmt.Scanln(&(m.row), &(m.column))
 	fmt.Print("Введите матрицу: ")
 
 	// Создаем новый сканер
@@ -72,19 +68,6 @@ func (m *Matrix[T]) Create() {
 	m.SetDeterminant()
 }
 
-// Создание матрицы из нулей
-func (m *Matrix[T]) CreateEmptyMatrix(row, col int) {
-	if len(m.matrix) != 0 {
-		log.Fatal("Матрица уже создана!")
-	}
-	for i := 0; i < row; i++ {
-		m.matrix = append(m.matrix, []T{})
-		for j := 0; j < col; j++ {
-			m.matrix[i] = append(m.matrix[i], 0)
-		}
-	}
-}
-
 // Длина матрицы (row * col)
 func (m *Matrix[T]) Len() int {
 	return m.row * m.column
@@ -102,33 +85,12 @@ func (m *Matrix[T]) Matrix() [][]T {
 
 // Определение детерминанта
 func (m *Matrix[T]) SetDeterminant() {
-	m.determinant = recursSearchDet(m.matrix)
+	m.determinant = dopf.RecursSearchDet(m.matrix)
 }
 
 // Вовращение детерминанта
 func (m *Matrix[T]) Determinant() T {
 	return m.determinant
-}
-
-// Вспомогательная функция для поиска определителя
-func recursSearchDet[T Number](m [][]T) T {
-	var det T
-	det = 0
-
-	if len(m) == 2 {
-		det = m[0][0]*m[1][1] - m[0][1]*m[1][0]
-	} else {
-		for i := 0; i < len(m); i++ {
-			mRec := [][]T{}
-			for j := 0; j < len(m); j++ {
-				if i != j {
-					mRec = append(mRec, m[j][1:])
-				}
-			}
-			det += T(math.Pow(-1, float64(i))) * m[i][0] * recursSearchDet(mRec)
-		}
-	}
-	return det
 }
 
 func (m *Matrix[T]) SetRow(x int) {

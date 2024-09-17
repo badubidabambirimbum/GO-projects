@@ -5,12 +5,13 @@ import (
 	"fmt"
 	"log"
 	matrix "matrix/matrixStruct"
+	inter "matrix/numInterface"
 	"reflect"
 	"strconv"
 )
 
 // Печать матриц
-func PrintMatrix[T matrix.Number](matrixList map[int]matrix.Matrix[T]) {
+func PrintMatrix[T inter.Number](matrixList map[int]matrix.Matrix[T]) {
 	for key, value := range matrixList {
 		fmt.Println(key)
 		fmt.Println(&value)
@@ -18,7 +19,7 @@ func PrintMatrix[T matrix.Number](matrixList map[int]matrix.Matrix[T]) {
 }
 
 // Добавление матрицы в словарь
-func AddMatrix[T matrix.Number](matrixList *map[int]matrix.Matrix[T]) {
+func AddMatrix[T inter.Number](matrixList *map[int]matrix.Matrix[T]) {
 	m := matrix.Matrix[T]{}
 	m.Create()
 	n := len(*matrixList)
@@ -26,7 +27,7 @@ func AddMatrix[T matrix.Number](matrixList *map[int]matrix.Matrix[T]) {
 }
 
 // Операции между матрицами
-func OperationBetweenMatrices[T matrix.Number](
+func OperationBetweenMatrices[T inter.Number](
 	input_split []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T], matrix.Matrix[T]) matrix.Matrix[T]) {
@@ -47,7 +48,7 @@ func OperationBetweenMatrices[T matrix.Number](
 }
 
 // Операция умножения матрицы на число
-func OperationMatrixByNubmer[T matrix.Number](
+func OperationMatrixByNubmer[T inter.Number](
 	input_split []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T], T) matrix.Matrix[T]) {
@@ -82,7 +83,7 @@ func OperationMatrixByNubmer[T matrix.Number](
 }
 
 // Операции над матрицей
-func OperationMatrix[T matrix.Number](
+func OperationMatrix[T inter.Number](
 	input_split []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T]) matrix.Matrix[T]) {

@@ -2,13 +2,14 @@ package matrix
 
 import (
 	matrix "matrix/matrixStruct"
+	inter "matrix/numInterface"
 	"reflect"
 	"testing"
 )
 
 //453
 
-type testData[T matrix.Number] struct {
+type testData[T inter.Number] struct {
 	list1 matrix.Matrix[T]
 	list2 matrix.Matrix[T]
 	want  matrix.Matrix[T]
