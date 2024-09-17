@@ -109,22 +109,27 @@ func (m *Matrix[T]) Determinant() T {
 	return m.determinant
 }
 
+// Определение кол-во строк
 func (m *Matrix[T]) SetRow(x int) {
 	m.row = x
 }
 
+// Возвращение кол-во строк
 func (m *Matrix[T]) Row() int {
 	return m.row
 }
 
+// Определение кол-во столбцов
 func (m *Matrix[T]) SetColumn(x int) {
 	m.column = x
 }
 
+// Возвращение кол-во столбцов
 func (m *Matrix[T]) Column() int {
 	return m.column
 }
 
+// Определение максимального значения матрицы
 func (m *Matrix[T]) SetMax(val ...T) {
 	if len(val) == 0 {
 		for i := 0; i < m.row; i++ {
@@ -139,10 +144,12 @@ func (m *Matrix[T]) SetMax(val ...T) {
 	}
 }
 
+// Возвращение максимального значения матрицы
 func (m *Matrix[T]) Max() T {
 	return m.max
 }
 
+// Определение минимального значения матрицы
 func (m *Matrix[T]) SetMin(val ...T) {
 	if len(val) == 0 {
 		for i := 0; i < m.row; i++ {
@@ -157,10 +164,12 @@ func (m *Matrix[T]) SetMin(val ...T) {
 	}
 }
 
+// Возвращение минимального значения матрицы
 func (m *Matrix[T]) Min() T {
 	return m.min
 }
 
+// Печать структуры
 func (m *Matrix[T]) String() string {
 	var s string = fmt.Sprintf("Матрица %dx%d", m.row, m.column)
 	precision := 0
