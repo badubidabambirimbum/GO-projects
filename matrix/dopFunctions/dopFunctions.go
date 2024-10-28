@@ -5,7 +5,7 @@ import (
 	inter "matrix/numInterface"
 )
 
-// Поиск определителя
+// RecursSearchDet Поиск определителя
 func RecursSearchDet[T inter.Number](m [][]T) T {
 	var det T
 	det = 0
@@ -16,7 +16,7 @@ func RecursSearchDet[T inter.Number](m [][]T) T {
 		det = m[0][0]*m[1][1] - m[0][1]*m[1][0]
 	} else {
 		for i := 0; i < len(m); i++ {
-			mRec := [][]T{}
+			var mRec [][]T
 			for j := 0; j < len(m); j++ {
 				if i != j {
 					mRec = append(mRec, m[j][1:])
@@ -28,7 +28,7 @@ func RecursSearchDet[T inter.Number](m [][]T) T {
 	return det
 }
 
-// Составление матрицы алгебраических дополнений
+// SearchMatrixAlgAdditions Составление матрицы алгебраических дополнений
 func SearchMatrixAlgAdditions[T inter.Number](m [][]T) [][]T {
 	resMatrix := CreateEmptyMatrix[T](len(m), len(m[0]))
 
@@ -49,7 +49,7 @@ func getMinor[T inter.Number](m [][]T, row, col int) [][]T {
 		if i == row {
 			continue
 		}
-		newRow := []T{}
+		var newRow []T
 		for j := 0; j < size; j++ {
 			if j == col {
 				continue
@@ -65,9 +65,9 @@ func getMinor[T inter.Number](m [][]T, row, col int) [][]T {
 	return minor
 }
 
-// Создание матрицы из нулей
+// CreateEmptyMatrix Создание матрицы из нулей
 func CreateEmptyMatrix[T inter.Number](row, col int) [][]T {
-	m := [][]T{}
+	var m [][]T
 	for i := 0; i < row; i++ {
 		m = append(m, []T{})
 		for j := 0; j < col; j++ {

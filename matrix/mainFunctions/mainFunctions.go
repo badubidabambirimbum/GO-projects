@@ -1,4 +1,4 @@
-// Функции для функционала main функции
+// Package matrix Функции для функционала main функции
 package matrix
 
 import (
@@ -10,7 +10,7 @@ import (
 	"strconv"
 )
 
-// Печать матриц
+// PrintMatrix Печать матриц
 func PrintMatrix[T inter.Number](matrixList map[int]matrix.Matrix[T]) {
 	for key := 1; key <= len(matrixList); key++ {
 		fmt.Println(key)
@@ -19,7 +19,7 @@ func PrintMatrix[T inter.Number](matrixList map[int]matrix.Matrix[T]) {
 	}
 }
 
-// Добавление матрицы в словарь
+// AddMatrix Добавление матрицы в словарь
 func AddMatrix[T inter.Number](matrixList *map[int]matrix.Matrix[T]) {
 	m := matrix.Matrix[T]{}
 	m.Create()
@@ -27,19 +27,19 @@ func AddMatrix[T inter.Number](matrixList *map[int]matrix.Matrix[T]) {
 	(*matrixList)[n+1] = m
 }
 
-// Операции между матрицами
+// OperationBetweenMatrices Операции между матрицами
 func OperationBetweenMatrices[T inter.Number](
-	input_split []string,
+	inputSplit []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T], matrix.Matrix[T]) matrix.Matrix[T]) {
 
-	num1, err := strconv.Atoi(input_split[1])
+	num1, err := strconv.Atoi(inputSplit[1])
 	if err != nil {
-		log.Fatalf("%s не переводится в int", input_split[1])
+		log.Fatalf("%s не переводится в int", inputSplit[1])
 	}
-	num2, err := strconv.Atoi(input_split[2])
+	num2, err := strconv.Atoi(inputSplit[2])
 	if err != nil {
-		log.Fatalf("%s не переводится в int", input_split[2])
+		log.Fatalf("%s не переводится в int", inputSplit[2])
 	}
 	resultMatrix := operation((*matrixList)[num1], (*matrixList)[num2])
 	n := len(*matrixList)
@@ -48,29 +48,29 @@ func OperationBetweenMatrices[T inter.Number](
 	fmt.Println(&resultMatrix)
 }
 
-// Операция умножения матрицы на число
-func OperationMatrixByNubmer[T inter.Number](
-	input_split []string,
+// OperationMatrixByNumber Операция умножения матрицы на число
+func OperationMatrixByNumber[T inter.Number](
+	inputSplit []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T], T) matrix.Matrix[T]) {
 	var resultMatrix matrix.Matrix[T]
-	num, err := strconv.Atoi(input_split[1])
+	num, err := strconv.Atoi(inputSplit[1])
 	if err != nil {
-		log.Fatalf("%s не переводится в int", input_split[1])
+		log.Fatalf("%s не переводится в int", inputSplit[1])
 	}
 
 	switch reflect.TypeOf(*new(T)).Kind() {
 	case reflect.Int:
-		val, err := strconv.Atoi(input_split[2])
+		val, err := strconv.Atoi(inputSplit[2])
 		if err != nil {
-			log.Fatalf("%s не переводится в int", input_split[2])
+			log.Fatalf("%s не переводится в int", inputSplit[2])
 		} else {
 			resultMatrix = operation((*matrixList)[num], T(any(val).(T)))
 		}
 	case reflect.Float64:
-		val, err := strconv.ParseFloat(input_split[2], 64)
+		val, err := strconv.ParseFloat(inputSplit[2], 64)
 		if err != nil {
-			log.Fatalf("%s не переводится в float64", input_split[2])
+			log.Fatalf("%s не переводится в float64", inputSplit[2])
 		} else {
 			resultMatrix = operation((*matrixList)[num], T(any(val).(T)))
 		}
@@ -83,14 +83,14 @@ func OperationMatrixByNubmer[T inter.Number](
 	fmt.Println(&resultMatrix)
 }
 
-// Операции над матрицей
+// OperationMatrix Операции над матрицей
 func OperationMatrix[T inter.Number](
-	input_split []string,
+	inputSplit []string,
 	matrixList *map[int]matrix.Matrix[T],
 	operation func(matrix.Matrix[T]) matrix.Matrix[T]) {
-	num, err := strconv.Atoi(input_split[1])
+	num, err := strconv.Atoi(inputSplit[1])
 	if err != nil {
-		log.Fatalf("%s не переводится в int", input_split[1])
+		log.Fatalf("%s не переводится в int", inputSplit[1])
 	}
 	resultMatrix := operation((*matrixList)[num])
 	n := len(*matrixList)

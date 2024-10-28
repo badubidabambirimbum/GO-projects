@@ -1,15 +1,17 @@
-// Функции, применимые к типу Matrix
+// Package matrix Функции, применимые к типу Matrix
 package matrix
 
 import (
+	"fmt"
 	"log"
 	"math"
 	dopf "matrix/dopFunctions"
 	matrix "matrix/matrixStruct"
 	inter "matrix/numInterface"
+	"reflect"
 )
 
-// Сумма матриц
+// Sum Сумма матриц
 func Sum[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix[T] {
 	if m1.Row() != m2.Row() || m1.Column() != m2.Column() {
 		log.Fatalf("Матрицы неравны! %d x %d != %d x %d", m1.Row(), m1.Column(), m2.Row(), m2.Column())
@@ -18,8 +20,8 @@ func Sum[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m1.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m1.Column())
-	result.SetMax(T(math.Inf(-1)))
-	result.SetMin(T(math.Inf(1)))
+	result.SetMax(T(math.MinInt))
+	result.SetMin(T(math.MaxInt))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m1.Column(); j++ {
 			result.Matrix()[i][j] = m1.Matrix()[i][j] + m2.Matrix()[i][j]
@@ -37,7 +39,7 @@ func Sum[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix
 	return result
 }
 
-// Разность матриц
+// Difference Разность матриц
 func Difference[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix[T] {
 	if m1.Row() != m2.Row() || m1.Column() != m2.Column() {
 		log.Fatalf("Матрицы неравны! %d x %d != %d x %d", m1.Row(), m1.Column(), m2.Row(), m2.Column())
@@ -46,8 +48,8 @@ func Difference[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m1.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m1.Column())
-	result.SetMax(T(math.Inf(-1)))
-	result.SetMin(T(math.Inf(1)))
+	result.SetMax(T(math.MinInt))
+	result.SetMin(T(math.MaxInt))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m1.Column(); j++ {
 			result.Matrix()[i][j] = m1.Matrix()[i][j] - m2.Matrix()[i][j]
@@ -65,7 +67,7 @@ func Difference[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix
 	return result
 }
 
-// Произведение матриц
+// Product Произведение матриц
 func Product[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Matrix[T] {
 	if m1.Column() != m2.Row() {
 		log.Fatal("Кол-во столбцов первой матрицы не равно кол-ву строк второй")
@@ -74,8 +76,8 @@ func Product[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Ma
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m1.Row(), m2.Column()))
 	result.SetRow(m1.Row())
 	result.SetColumn(m2.Column())
-	result.SetMax(T(math.Inf(-1)))
-	result.SetMin(T(math.Inf(1)))
+	result.SetMax(T(math.MinInt))
+	result.SetMin(T(math.MaxInt))
 	for i := 0; i < m1.Row(); i++ {
 		for j := 0; j < m2.Column(); j++ {
 			var val T
@@ -97,14 +99,14 @@ func Product[T inter.Number](m1 matrix.Matrix[T], m2 matrix.Matrix[T]) matrix.Ma
 	return result
 }
 
-// Произведение матрицы на число
+// MultiplicationByNumber Произведение матрицы на число
 func MultiplicationByNumber[T inter.Number](m matrix.Matrix[T], val T) matrix.Matrix[T] {
 	var result matrix.Matrix[T]
 	result.SetMatrix(dopf.CreateEmptyMatrix[T](m.Row(), m.Column()))
 	result.SetRow(m.Row())
 	result.SetColumn(m.Column())
-	result.SetMax(T(math.Inf(-1)))
-	result.SetMin(T(math.Inf(1)))
+	result.SetMax(T(math.MinInt))
+	result.SetMin(T(math.MaxInt))
 	for i := 0; i < m.Row(); i++ {
 		for j := 0; j < m.Column(); j++ {
 			result.Matrix()[i][j] = m.Matrix()[i][j] * val
@@ -122,7 +124,7 @@ func MultiplicationByNumber[T inter.Number](m matrix.Matrix[T], val T) matrix.Ma
 	return result
 }
 
-// Транспозиция матрицы
+// Transposition Транспозиция матрицы
 func Transposition[T inter.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
 	if m.Column() != m.Row() {
 		log.Fatal("Матрица должна быть квадратной!")
@@ -135,7 +137,7 @@ func Transposition[T inter.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
 	return m
 }
 
-// Обратная матрица
+// Inverse Обратная матрица
 func Inverse[T inter.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
 	if m.Column() != m.Row() {
 		log.Fatal("Обратную матрицу можно найти только для квадрдатной матрицы")
@@ -143,11 +145,14 @@ func Inverse[T inter.Number](m matrix.Matrix[T]) matrix.Matrix[T] {
 	if m.Determinant() == 0 {
 		log.Fatal("Определитель равен нулю")
 	}
+	if reflect.TypeOf(*new(T)).Kind() == reflect.Int {
+		fmt.Println("Обратная матрица для типа int может находиться некорректно!")
+	}
 	resMatrix := CreateMatrix(dopf.SearchMatrixAlgAdditions(m.Matrix()))
 	return MultiplicationByNumber(Transposition(resMatrix), 1/T(math.Abs(float64(m.Determinant()))))
 }
 
-// Создание матрицы
+// CreateMatrix Создание матрицы
 func CreateMatrix[T inter.Number](values [][]T) matrix.Matrix[T] {
 	result := matrix.Matrix[T]{}
 	result.SetMatrix(values)

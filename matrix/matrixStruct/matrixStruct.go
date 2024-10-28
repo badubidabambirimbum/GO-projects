@@ -1,4 +1,4 @@
-// Тип Matrix и его методы
+// Package matrix Тип Matrix и его методы
 package matrix
 
 import (
@@ -13,7 +13,7 @@ import (
 	"strings"
 )
 
-// Структура Matrix, которая работает с типами из интерфейса Number
+// Matrix Структура Matrix, которая работает с типами из интерфейса Number
 type Matrix[T inter.Number] struct {
 	matrix      [][]T // матрица
 	determinant T     // определитель
@@ -23,7 +23,7 @@ type Matrix[T inter.Number] struct {
 	min         T     // Минимальное значение
 }
 
-// Создание матрицы
+// Create Создание матрицы
 func (m *Matrix[T]) Create() {
 	fmt.Print("Введите количество строк и столбцов: ")
 	fmt.Scanln(&(m.row), &(m.column))
@@ -42,8 +42,8 @@ func (m *Matrix[T]) Create() {
 		if len(parts) != m.row*m.column {
 			log.Fatalf("Вы задали размер матрицы %d x %d, а ввели %d", m.row, m.column, len(parts))
 		}
-		m.max = T(math.MinInt64)
-		m.min = T(math.MaxInt64)
+		m.max = T(math.MinInt)
+		m.min = T(math.MaxInt)
 		for i := 0; i < m.row; i++ {
 			m.matrix = append(m.matrix, []T{})
 			for j := 0; j < m.column; j++ {
@@ -84,87 +84,91 @@ func (m *Matrix[T]) Create() {
 	m.SetDeterminant()
 }
 
-// Длина матрицы (row * col)
+// Len Длина матрицы (row * col)
 func (m *Matrix[T]) Len() int {
 	return m.row * m.column
 }
 
-//  Изменение значения матрицы ?
+// SetMatrix Изменение значения матрицы ?
 func (m *Matrix[T]) SetMatrix(values [][]T) {
 	m.matrix = values
 }
 
-// Возвращение матрицы
+// Matrix Возвращение матрицы
 func (m *Matrix[T]) Matrix() [][]T {
 	return m.matrix
 }
 
-// Определение детерминанта
+// SetDeterminant Определение детерминанта
 func (m *Matrix[T]) SetDeterminant() {
 	m.determinant = dopf.RecursSearchDet(m.matrix)
 }
 
-// Вовращение детерминанта
+// Determinant Возвращение детерминанта
 func (m *Matrix[T]) Determinant() T {
 	return m.determinant
 }
 
-// Определение кол-во строк
+// SetRow Определение кол-во строк
 func (m *Matrix[T]) SetRow(x int) {
 	m.row = x
 }
 
-// Возвращение кол-во строк
+// Row Возвращение кол-во строк
 func (m *Matrix[T]) Row() int {
 	return m.row
 }
 
-// Определение кол-во столбцов
+// SetColumn Определение кол-во столбцов
 func (m *Matrix[T]) SetColumn(x int) {
 	m.column = x
 }
 
-// Возвращение кол-во столбцов
+// Column Возвращение кол-во столбцов
 func (m *Matrix[T]) Column() int {
 	return m.column
 }
 
-// Определение максимального значения матрицы
+// SetMax Определение максимального значения матрицы
 func (m *Matrix[T]) SetMax(val ...T) {
 	if len(val) == 0 {
+		maxVal := T(math.MinInt)
 		for i := 0; i < m.row; i++ {
 			for j := 0; j < m.column; j++ {
-				if m.matrix[i][j] > m.max {
-					m.max = m.matrix[i][j]
+				if m.matrix[i][j] > maxVal {
+					maxVal = m.matrix[i][j]
 				}
 			}
 		}
+		m.max = maxVal
 	} else {
 		m.max = val[0]
 	}
 }
 
-// Возвращение максимального значения матрицы
+// Max Возвращение максимального значения матрицы
 func (m *Matrix[T]) Max() T {
 	return m.max
 }
 
-// Определение минимального значения матрицы
+// SetMin Определение минимального значения матрицы
 func (m *Matrix[T]) SetMin(val ...T) {
 	if len(val) == 0 {
+		minVal := T(math.MaxInt)
 		for i := 0; i < m.row; i++ {
 			for j := 0; j < m.column; j++ {
-				if m.matrix[i][j] < m.min {
-					m.min = m.matrix[i][j]
+				if m.matrix[i][j] < minVal {
+					minVal = m.matrix[i][j]
 				}
 			}
 		}
+		m.min = minVal
 	} else {
 		m.min = val[0]
 	}
 }
 
-// Возвращение минимального значения матрицы
+// Min Возвращение минимального значения матрицы
 func (m *Matrix[T]) Min() T {
 	return m.min
 }

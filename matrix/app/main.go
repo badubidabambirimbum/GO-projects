@@ -51,8 +51,10 @@ func main() {
 
 			case input == "1 int":
 				matrixType = "int"
+				fmt.Println("Новый тип -> int")
 			case input == "1 float":
 				matrixType = "float"
+				fmt.Println("Новый тип -> float64")
 
 			case input == "2":
 				if matrixType == "int" {
@@ -90,9 +92,9 @@ func main() {
 
 			case strings.HasPrefix(input, "7"):
 				if matrixType == "int" {
-					mainfunct.OperationMatrixByNubmer(strings.Split(input, " "), &matrixIntMap, funct.MultiplicationByNumber)
+					mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixIntMap, funct.MultiplicationByNumber)
 				} else {
-					mainfunct.OperationMatrixByNubmer(strings.Split(input, " "), &matrixFloatMap, funct.MultiplicationByNumber)
+					mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixFloatMap, funct.MultiplicationByNumber)
 				}
 
 			case strings.HasPrefix(input, "8"):
