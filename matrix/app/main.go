@@ -65,50 +65,92 @@ func main() {
 
 			case input == "3":
 				if matrixType == "int" {
-					mainfunct.AddMatrix(&matrixIntMap)
+					err := mainfunct.AddMatrix(&matrixIntMap)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.AddMatrix(&matrixFloatMap)
+					err := mainfunct.AddMatrix(&matrixFloatMap)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 			case strings.HasPrefix(input, "4"):
 				if matrixType == "int" {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Sum)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Sum)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Sum)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Sum)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case strings.HasPrefix(input, "5"):
 				if matrixType == "int" {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Difference)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Difference)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Difference)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Difference)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case strings.HasPrefix(input, "6"):
 				if matrixType == "int" {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Product)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixIntMap, funct.Product)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Product)
+					err := mainfunct.OperationBetweenMatrices(strings.Split(input, " "), &matrixFloatMap, funct.Product)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case strings.HasPrefix(input, "7"):
 				if matrixType == "int" {
-					mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixIntMap, funct.MultiplicationByNumber)
+					err := mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixIntMap, funct.MultiplicationByNumber)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixFloatMap, funct.MultiplicationByNumber)
+					err := mainfunct.OperationMatrixByNumber(strings.Split(input, " "), &matrixFloatMap, funct.MultiplicationByNumber)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case strings.HasPrefix(input, "8"):
 				if matrixType == "int" {
-					mainfunct.OperationMatrix(strings.Split(input, " "), &matrixIntMap, funct.Transposition)
+					err := mainfunct.OperationMatrix(strings.Split(input, " "), &matrixIntMap, funct.Transposition)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationMatrix(strings.Split(input, " "), &matrixFloatMap, funct.Transposition)
+					err := mainfunct.OperationMatrix(strings.Split(input, " "), &matrixFloatMap, funct.Transposition)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case strings.HasPrefix(input, "9"):
 				if matrixType == "int" {
-					mainfunct.OperationMatrix(strings.Split(input, " "), &matrixIntMap, funct.Inverse)
+					err := mainfunct.OperationMatrix(strings.Split(input, " "), &matrixIntMap, funct.Inverse)
+					if err != nil {
+						fmt.Println(err)
+					}
 				} else {
-					mainfunct.OperationMatrix(strings.Split(input, " "), &matrixFloatMap, funct.Inverse)
+					err := mainfunct.OperationMatrix(strings.Split(input, " "), &matrixFloatMap, funct.Inverse)
+					if err != nil {
+						fmt.Println(err)
+					}
 				}
 
 			case input == "10":

@@ -31,7 +31,10 @@ func TestSum(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Sum[int](test.list1, test.list2)
+		got, err := Sum[int](test.list1, test.list2)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		if !reflect.DeepEqual(got.Matrix(), test.want.Matrix()) {
 			t.Errorf("Sum (%d, %d) = \"%d\", want \"%d\"", test.list1.Matrix(), test.list2.Matrix(), got.Matrix(), test.want.Matrix())
 		}
@@ -53,7 +56,10 @@ func TestDifference(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Difference[int](test.list1, test.list2)
+		got, err := Difference[int](test.list1, test.list2)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		if !reflect.DeepEqual(got.Matrix(), test.want.Matrix()) {
 			t.Errorf("Difference (%d, %d) = \"%d\", want \"%d\"", test.list1.Matrix(), test.list2.Matrix(), got.Matrix(), test.want.Matrix())
 		}
@@ -75,7 +81,10 @@ func TestProduct(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Product[int](test.list1, test.list2)
+		got, err := Product[int](test.list1, test.list2)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		if !reflect.DeepEqual(got.Matrix(), test.want.Matrix()) {
 			t.Errorf("Product (%d, %d) = \"%d\", want \"%d\"", test.list1.Matrix(), test.list2.Matrix(), got.Matrix(), test.want.Matrix())
 		}
@@ -97,7 +106,10 @@ func TestMultiplicationByNumber(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := MultiplicationByNumber[int](test.list1, test.val)
+		got, err := MultiplicationByNumber[int](test.list1, test.val)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		if !reflect.DeepEqual(got.Matrix(), test.want.Matrix()) {
 			t.Errorf("MultiplicationByNumbe (%d, %d) = \"%d\", want \"%d\"", test.list1.Matrix(), test.val, got.Matrix(), test.want.Matrix())
 		}
@@ -117,7 +129,10 @@ func TestTransposition(t *testing.T) {
 	}
 
 	for _, test := range tests {
-		got := Transposition[int](test.list1)
+		got, err := Transposition[int](test.list1)
+		if err != nil {
+			t.Errorf(err.Error())
+		}
 		if !reflect.DeepEqual(got.Matrix(), test.want.Matrix()) {
 			t.Errorf("Transposition (%d) = \"%d\", want \"%d\"", test.list1.Matrix(), got.Matrix(), test.want.Matrix())
 		}

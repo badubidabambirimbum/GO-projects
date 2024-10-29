@@ -4,7 +4,6 @@ package matrix
 import (
 	"bufio"
 	"fmt"
-	"log"
 	"math"
 	dopf "matrix/dopFunctions"
 	inter "matrix/numInterface"
@@ -24,7 +23,7 @@ type Matrix[T inter.Number] struct {
 }
 
 // Create Создание матрицы
-func (m *Matrix[T]) Create() {
+func (m *Matrix[T]) Create() error {
 	fmt.Print("Введите количество строк и столбцов: ")
 	fmt.Scanln(&(m.row), &(m.column))
 	fmt.Print("Введите матрицу: ")
@@ -40,7 +39,7 @@ func (m *Matrix[T]) Create() {
 		parts := strings.Split(input, " ")
 
 		if len(parts) != m.row*m.column {
-			log.Fatalf("Вы задали размер матрицы %d x %d, а ввели %d", m.row, m.column, len(parts))
+			return fmt.Errorf("вы задали размер матрицы %d x %d, а ввели %d", m.row, m.column, len(parts))
 		}
 		m.max = T(math.MinInt)
 		m.min = T(math.MaxInt)
@@ -52,7 +51,7 @@ func (m *Matrix[T]) Create() {
 					num, err := strconv.Atoi(parts[i*m.column+j])
 					if err != nil {
 						fmt.Println("Ошибка преобразования:", err)
-						return
+						return err
 					}
 					m.matrix[i] = append(m.matrix[i], T(num))
 					if T(num) > m.max {
@@ -65,7 +64,7 @@ func (m *Matrix[T]) Create() {
 					num, err := strconv.ParseFloat(parts[i*m.column+j], 64)
 					if err != nil {
 						fmt.Println("Ошибка преобразования:", err)
-						return
+						return err
 					}
 					m.matrix[i] = append(m.matrix[i], T(num))
 					if T(num) > m.max {
@@ -75,13 +74,14 @@ func (m *Matrix[T]) Create() {
 						m.min = T(num)
 					}
 				default:
-					fmt.Println("Ошибка типа")
-					return
+					return fmt.Errorf("ошибка типа")
 				}
 			}
 		}
 	}
 	m.SetDeterminant()
+
+	return nil
 }
 
 // Len Длина матрицы (row * col)
