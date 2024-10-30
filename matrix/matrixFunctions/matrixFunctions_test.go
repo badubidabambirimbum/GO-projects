@@ -1,4 +1,4 @@
-package matrix
+package matrixFunctions
 
 import (
 	matrix "matrix/matrixStruct"

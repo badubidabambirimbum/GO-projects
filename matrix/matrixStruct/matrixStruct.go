@@ -1,5 +1,5 @@
-// Package matrix Тип Matrix и его методы
-package matrix
+// Package matrixStruct Тип Matrix и его методы
+package matrixStruct
 
 import (
 	"bufio"
@@ -79,7 +79,9 @@ func (m *Matrix[T]) Create() error {
 			}
 		}
 	}
-	m.SetDeterminant()
+	if m.row == m.column {
+		m.SetDeterminant()
+	}
 
 	return nil
 }

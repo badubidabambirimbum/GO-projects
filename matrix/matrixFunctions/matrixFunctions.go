@@ -1,5 +1,5 @@
-// Package matrix Функции, применимые к типу Matrix
-package matrix
+// Package matrixFunctions Package matrix Функции, применимые к типу Matrix
+package matrixFunctions
 
 import (
 	"fmt"

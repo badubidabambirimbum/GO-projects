@@ -1,4 +1,5 @@
-package matrix
+// Package dopFunctions Дополнительные функции
+package dopFunctions
 
 import (
 	"math"
@@ -40,7 +41,7 @@ func SearchMatrixAlgAdditions[T inter.Number](m [][]T) [][]T {
 	return resMatrix
 }
 
-// Получение минора
+// getMinor Получение минора
 func getMinor[T inter.Number](m [][]T, row, col int) [][]T {
 	size := len(m)
 	minor := make([][]T, size-1)

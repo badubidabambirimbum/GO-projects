@@ -1,5 +1,5 @@
-// Package matrix Функции для функционала main функции
-package matrix
+// Package mainFunctions Функции для функционала main функции
+package mainFunctions
 
 import (
 	"fmt"
